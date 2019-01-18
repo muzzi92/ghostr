@@ -1,0 +1,21 @@
+<head>
+    <link type="text/css" rel="stylesheet" href="/stylesheets/main.css" />
+</head>
+
+<h1> Ghostr - The Ghost Name Generator </h1>
+
+{% if user %}
+    <h2> Welcome {{user}}</h2>
+{% endif %}
+
+<ul>
+{% for name in names %}
+    <li>
+        {{ name }}
+    </li>
+{% endfor %}
+</ul>
+
+<a href="entry">Create Your Ghost Name</a>
+<br>
+<a href="{{ url }}">{{ url_linktext }}</a>

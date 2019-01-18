@@ -1,0 +1,11 @@
+<head>
+    <link type="text/css" rel="stylesheet" href="/stylesheets/main.css" />
+</head>
+
+<form action="/create" method="post">
+    {% for ghost_name in ghost_names %}
+    <input type="checkbox" name="ghost_name" id="choice}" value="Casper">
+    <label for="choice"> {{first_name}} "{{ghost_name}}" {{second_name}} </label><br>
+    {% endfor %}
+    <input type="submit" value="Select">
+</form>
