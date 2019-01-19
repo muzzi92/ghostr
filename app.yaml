@@ -8,3 +8,7 @@ handlers:
 
 - url: /.*
   script: ghostr.application
+
+libraries:
+- name: grpcio
+  version: latest

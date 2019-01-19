@@ -1,17 +1,15 @@
 import os
 from google.appengine.ext.webapp import template
 
-import cgi
-
 from google.appengine.ext import db
 from google.appengine.api import users
 import webapp2
 
-def ghost_key(alias=None):
+def get_current_ghost():
   """Constructs a datastore key for a Guestbook entity with guestbook_name."""
-  if users.get_current_user():
-      alias = users.get_current_user()
-  return db.Key.from_path('Ghost', alias)
+  user = users.get_current_user()
+  query = db.GqlQuery("SELECT * FROM Ghost WHERE gmail = :gmail", gmail=user)
+  return query[0]
 
 class Ghost(db.Model):
     gmail = db.UserProperty()
@@ -19,20 +17,16 @@ class Ghost(db.Model):
     first_name = db.StringProperty()
     second_name = db.StringProperty()
 
+
 class MainPage(webapp2.RequestHandler):
     def get(self):
         ghosts = db.GqlQuery("SELECT * FROM Ghost ")
-        for ghost in ghosts:
-            print(ghost.alias)
-            print(ghost.user.nickname())
         if users.get_current_user():
             url = users.create_logout_url(self.request.uri)
             url_linktext = 'Logout'
         else:
             url = users.create_login_url(self.request.uri)
             url_linktext = 'Login'
-
-        names = ["Tom", "Dick", "Roldy"]
 
         template_values = {
             'ghosts': ghosts,
@@ -51,12 +45,18 @@ class EntryPage(webapp2.RequestHandler):
 
 class SelectionPage(webapp2.RequestHandler):
     def post(self):
-        first_name = self.request.get('first_name')
-        second_name = self.request.get('second_name')
+        user = users.get_current_user()
+        ghost = Ghost()
+        ghost.gmail = user
+        ghost.first_name = self.request.get('first_name')
+        ghost.second_name = self.request.get('second_name')
+        ghost.put()
+
         ghost_names = ["Tom", "Dick", "Roldy"]
+
         template_values = {
-            'first_name': self.request.get('first_name'),
-            'second_name': self.request.get('second_name'),
+            'first_name': ghost.first_name,
+            'second_name': ghost.second_name,
             'ghost_names': ghost_names,
         }
 
@@ -65,12 +65,10 @@ class SelectionPage(webapp2.RequestHandler):
 
 class CreatePage(webapp2.RequestHandler):
     def post(self):
-        ghost = Ghost()
+        ghost = get_current_ghost()
 
-        if users.get_current_user():
-            ghost.user = users.get_current_user()
+        ghost.ghost_name = self.request.get('ghost_name')
 
-        ghost.alias = self.request.get('ghost_name')
         ghost.put()
 
         self.redirect('/?')
