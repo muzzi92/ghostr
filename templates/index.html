@@ -9,9 +9,9 @@
 {% endif %}
 
 <ul>
-{% for name in names %}
+{% for ghost in ghosts %}
     <li>
-        {{ name }}
+        {{ ghost.alias }} - {{ ghost.user.email }}
     </li>
 {% endfor %}
 </ul>

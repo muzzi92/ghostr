@@ -9,16 +9,22 @@ import webapp2
 
 def ghost_key(alias=None):
   """Constructs a datastore key for a Guestbook entity with guestbook_name."""
+  if users.get_current_user():
+      alias = users.get_current_user()
   return db.Key.from_path('Ghost', alias)
 
 class Ghost(db.Model):
-    user = db.UserProperty()
-    alias = db.StringProperty()
+    gmail = db.UserProperty()
+    ghost_name = db.StringProperty()
+    first_name = db.StringProperty()
+    second_name = db.StringProperty()
 
 class MainPage(webapp2.RequestHandler):
     def get(self):
         ghosts = db.GqlQuery("SELECT * FROM Ghost ")
-
+        for ghost in ghosts:
+            print(ghost.alias)
+            print(ghost.user.nickname())
         if users.get_current_user():
             url = users.create_logout_url(self.request.uri)
             url_linktext = 'Logout'
@@ -29,7 +35,7 @@ class MainPage(webapp2.RequestHandler):
         names = ["Tom", "Dick", "Roldy"]
 
         template_values = {
-            'names': names,
+            'ghosts': ghosts,
             'user': users.get_current_user(),
             'url': url,
             'url_linktext': url_linktext,
