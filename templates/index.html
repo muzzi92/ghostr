@@ -11,11 +11,16 @@
 <ul>
 {% for ghost in ghosts %}
     <li>
-        {{ ghost.ghost_name }} - {{ ghost.gmail.email }}
+        {{ ghost.ghost_name }}
+        {% if ghost.gmail %}
+         - {{ ghost.first_name }} {{ghost.second_name}}, {{ ghost.gmail.email }}
+        {% endif %}
     </li>
 {% endfor %}
 </ul>
 
-<a href="entry">Create Your Ghost Name</a>
+<a href="entry">{{ form_linktext }}</a>
+
 <br>
-<a href="{{ url }}">{{ url_linktext }}</a>
+
+<a href="{{ auth_url }}">{{ auth_linktext }}</a>

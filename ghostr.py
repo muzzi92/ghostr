@@ -1,38 +1,32 @@
 import os
 from google.appengine.ext.webapp import template
-
-from google.appengine.ext import db
+from models import Ghost, Database
 from google.appengine.api import users
 import webapp2
+from google.appengine.ext import db
 
-def get_current_ghost():
-  """Constructs a datastore key for a Guestbook entity with guestbook_name."""
-  user = users.get_current_user()
-  query = db.GqlQuery("SELECT * FROM Ghost WHERE gmail = :gmail", gmail=user)
-  return query[0]
-
-class Ghost(db.Model):
-    gmail = db.UserProperty()
-    ghost_name = db.StringProperty()
-    first_name = db.StringProperty()
-    second_name = db.StringProperty()
+Database().setup_ghosts()
 
 
 class MainPage(webapp2.RequestHandler):
     def get(self):
-        ghosts = db.GqlQuery("SELECT * FROM Ghost ")
+        ghosts = db.GqlQuery("SELECT * FROM Ghost")
+
         if users.get_current_user():
-            url = users.create_logout_url(self.request.uri)
-            url_linktext = 'Logout'
+            auth_url = users.create_logout_url(self.request.uri)
+            auth_linktext = 'Logout'
+            form_linktext = "Change your current Phantom name"
         else:
-            url = users.create_login_url(self.request.uri)
-            url_linktext = 'Login'
+            auth_url = users.create_login_url(self.request.uri)
+            auth_linktext = 'Login'
+            form_linktext = "Get a Phantom name"
 
         template_values = {
             'ghosts': ghosts,
             'user': users.get_current_user(),
-            'url': url,
-            'url_linktext': url_linktext,
+            'auth_url': auth_url,
+            'auth_linktext': auth_linktext,
+            'form_linktext': form_linktext,
         }
 
         path = os.path.join(os.path.dirname(__file__), 'templates/index.html')
@@ -40,23 +34,29 @@ class MainPage(webapp2.RequestHandler):
 
 class EntryPage(webapp2.RequestHandler):
     def get(self, template_values=dict()):
+        if users.get_current_user():
+            auth_url = users.create_logout_url(self.request.uri)
+            auth_linktext = 'Logout'
+        else:
+            auth_url = users.create_login_url(self.request.uri)
+            auth_linktext = 'Login'
+
+        template_values = {
+            'user': users.get_current_user(),
+            'auth_url': auth_url,
+            'auth_linktext': auth_linktext,
+        }
+
         path = os.path.join(os.path.dirname(__file__), 'templates/entry.html')
         self.response.out.write(template.render(path, template_values))
 
 class SelectionPage(webapp2.RequestHandler):
     def post(self):
-        user = users.get_current_user()
-        ghost = Ghost()
-        ghost.gmail = user
-        ghost.first_name = self.request.get('first_name')
-        ghost.second_name = self.request.get('second_name')
-        ghost.put()
-
-        ghost_names = ["Tom", "Dick", "Roldy"]
+        ghost_names = [ghost.ghost_name for ghost in db.GqlQuery("SELECT * FROM Ghost")]
 
         template_values = {
-            'first_name': ghost.first_name,
-            'second_name': ghost.second_name,
+            'first_name': self.request.get('first_name'),
+            'second_name': self.request.get('second_name'),
             'ghost_names': ghost_names,
         }
 
@@ -65,11 +65,12 @@ class SelectionPage(webapp2.RequestHandler):
 
 class CreatePage(webapp2.RequestHandler):
     def post(self):
-        ghost = get_current_ghost()
-
-        ghost.ghost_name = self.request.get('ghost_name')
-
-        ghost.put()
+        for ghost in db.GqlQuery("SELECT * FROM Ghost"):
+            if ghost.ghost_name == self.request.get('ghost_name'):
+                ghost.first_name = self.request.get('first_name')
+                ghost.second_name = self.request.get('second_name')
+                ghost.gmail = users.get_current_user()
+                ghost.put()
 
         self.redirect('/?')
 

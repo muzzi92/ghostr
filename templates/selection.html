@@ -4,6 +4,8 @@
 
 <form action="/create" method="post">
     {% for ghost_name in ghost_names %}
+    <input type="hidden" name="first_name" value="{{first_name}}">
+    <input type="hidden" name="second_name" value="{{second_name}}">
     <input type="radio" name="ghost_name" value="{{ghost_name}}">
     <label for="choice"> {{first_name}} "{{ghost_name}}" {{second_name}} </label><br>
     {% endfor %}

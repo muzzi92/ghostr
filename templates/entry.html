@@ -2,6 +2,7 @@
     <link type="text/css" rel="stylesheet" href="/stylesheets/main.css" />
 </head>
 
+{% if user %}
 <form action="/selection" method="post">
     <label>First Name: </label>
     <input name="first_name" type="text">
@@ -9,3 +10,10 @@
     <input name="second_name" type="text">
     <input type="submit" value="Submit">
 </form>
+{% else %}
+    <h2>Please Login below to continue</h2>
+{% endif %}
+
+
+
+<a href="{{ auth_url }}">{{ auth_linktext }}</a>
