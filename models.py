@@ -1,5 +1,5 @@
 from google.appengine.ext import db
-from googleapiclient import discovery
+from apiclient import discovery
 
 class Ghost(db.Model):
     gmail = db.UserProperty()
@@ -11,7 +11,7 @@ class Ghost(db.Model):
 class SpreadsheetProcessor:
 
     def __init__(self, spreadsheet_id='1R-xulhVpfaXOfvx05mLK7G5WvpIRk6eJLi99UlvC8RM', range_='A2:A44'):
-        service = discovery.build('sheets', 'v4', credentials=None)
+        service = discovery.build('sheets', 'v4')
         request = service.spreadsheets().values().get(spreadsheetId=spreadsheet_id, range=range_)
         response = request.execute()
         self.results = [value[0] for value in response['values']]
