@@ -1,5 +1,15 @@
 # Name Generator
 
+[Link to application](https://ghostr.appspot.com/)
+
+## Local Setup
+* Clone/ download repository into desired directory
+* Create virtual environment
+* `pip install -r requirements.txt`
+* Install [Python App Engine Standard Environment](https://cloud.google.com/appengine/docs/standard/python/quickstart)
+* Follow instructions to install and configure the SDK
+* Run `dev_appserver.py app.yaml` to deploy the application locally
+
 ## App brief
 Build an application hosted on the free version of App Engine. This application should provide a random ghost name when a user provides their own first and last name. All ghost names must be unique. The same ghost name should be consistently displayed to a returning user.
 Flow:

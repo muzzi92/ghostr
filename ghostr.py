@@ -1,6 +1,6 @@
 import os
 from google.appengine.ext.webapp import template
-from models import Ghost, GhostDatabase
+from models import GhostDatabase
 from google.appengine.api import users
 import webapp2
 
