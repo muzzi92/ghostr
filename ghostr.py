@@ -1,10 +1,13 @@
-import os
-from google.appengine.ext.webapp import template
-from models import GhostrEngine
-from google.appengine.api import users
 import webapp2
+from google.appengine.api import users
+from src.ghostr_engine import GhostrEngine
+from google.appengine.ext.webapp import template
+import os
+import sys
+sys.path.append(os.getcwd())
 
 GhostrEngine.setup()
+
 
 class MainPage(webapp2.RequestHandler):
     def get(self):

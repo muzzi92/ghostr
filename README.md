@@ -71,6 +71,7 @@ https://docs.google.com/spreadsheets/d/1R-xulhVpfaXOfvx05mLK7G5WvpIRk6eJLi99UlvC
     * It's been a while since I've played around with the front end and had to get used to it again.
 
 ## Improvements
+* Fix bug in `SpreadsheetProcessor`. You can see full details of the issue [here](https://stackoverflow.com/questions/54276516/google-api-python-client-from-six-moves-import-zip-importerror-no-module-name)
 * More testing. It would be great to fully test this app with complete unit, interface and integration tests. I chose to put testing on the backburner due to time constraints.
 * Using Key objects to access Datastore entities would have been a cleaner approach than wrapping GQL queries but took more time to get familiar with.
 * Replace `GhostrEngine.setup()` function with a better approach for populating the Database prior to app launch. E.g. Running it from separate script before hand.
