@@ -6,8 +6,8 @@ from random import shuffle
 class GhostrEngine:
 
     @classmethod
-    def setup(cls):
-        for name in SpreadsheetProcessor().results:
+    def setup(cls, ghost_names=SpreadsheetProcessor().results):
+        for name in ghost_names:
             if name not in [ghost.ghost_name for ghost in cls.list_all()]:
                 ghost = Ghost()
                 ghost.ghost_name = name
