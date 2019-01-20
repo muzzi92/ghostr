@@ -73,6 +73,7 @@ https://docs.google.com/spreadsheets/d/1R-xulhVpfaXOfvx05mLK7G5WvpIRk6eJLi99UlvC
 ## Improvements
 * More testing. It would be great to fully test this app with complete unit, interface and integration tests. I chose to put testing on the backburner due to time constraints.
 * Using Key objects to access Datastore entities would have been a cleaner approach than wrapping GQL queries but took more time to get familiar with.
+* Replace `GhostrEngine.setup()` function with a better approach for populating the Database prior to app launch. E.g. Running it from separate script before hand.
 * Better naming. I feel like I rushed through some of the class and method naming, and hence they are not as descriptive as I would have liked.
 * Further encapsulation. More logic can be extracted from the controller into modules.
 * Front end. It would have been cool to spend more time styling the app and implementing some JavaScript.

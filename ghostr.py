@@ -1,27 +1,19 @@
 import os
 from google.appengine.ext.webapp import template
-from models import GhostDatabase
+from models import GhostrEngine
 from google.appengine.api import users
 import webapp2
 
-GhostDatabase().setup()
-
+GhostrEngine.setup()
 
 class MainPage(webapp2.RequestHandler):
     def get(self):
-        gdb = GhostDatabase()
-
         user = users.get_current_user()
 
-        if gdb.get_from_user(user):
-            form_linktext = "Change your current Phantom name"
-        else:
-            form_linktext = "Get a Phantom name"
-
         template_values = {
-            'ghosts': gdb.list_all(),
+            'ghosts': GhostrEngine.list_all(),
             'user': user,
-            'form_linktext': form_linktext,
+            'form_linktext': GhostrEngine.set_form_text(user),
         }
 
         path = os.path.join(os.path.dirname(__file__), 'templates/index.html')
@@ -49,12 +41,10 @@ class EntryPage(webapp2.RequestHandler):
 
 class SelectionPage(webapp2.RequestHandler):
     def post(self):
-        ghost_names = GhostDatabase().list_random_three()
-
         template_values = {
             'first_name': self.request.get('first_name'),
             'second_name': self.request.get('second_name'),
-            'ghost_names': ghost_names,
+            'ghost_names': GhostrEngine.list_random_three(),
         }
 
         path = os.path.join(
@@ -65,14 +55,13 @@ class SelectionPage(webapp2.RequestHandler):
 
 class CreatePage(webapp2.RequestHandler):
     def post(self):
-        gdb = GhostDatabase()
         user = users.get_current_user()
-        previous_ghost = gdb.get_from_user(user)
+        previous_ghost = GhostrEngine.get_from_user(user)
 
         if previous_ghost:
-            gdb.clear_user_data(previous_ghost)
+            GhostrEngine.clear_user_data(previous_ghost)
 
-        ghost = gdb.get_from_ghostname(self.request.get('ghost_name'))
+        ghost = GhostrEngine.get_from_ghostname(self.request.get('ghost_name'))
         ghost.first_name = self.request.get('first_name')
         ghost.second_name = self.request.get('second_name')
         ghost.gmail = user
