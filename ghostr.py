@@ -10,17 +10,17 @@ GhostDatabase().setup()
 
 class MainPage(webapp2.RequestHandler):
     def get(self):
-        conn = GhostDatabase()
+        gdb = GhostDatabase()
 
         user = users.get_current_user()
 
-        if conn.get_from_user(user):
+        if gdb.get_from_user(user):
             form_linktext = "Change your current Phantom name"
         else:
             form_linktext = "Get a Phantom name"
 
         template_values = {
-            'ghosts': conn.list_all(),
+            'ghosts': gdb.list_all(),
             'user': user,
             'form_linktext': form_linktext,
         }
@@ -66,12 +66,18 @@ class SelectionPage(webapp2.RequestHandler):
 
 class CreatePage(webapp2.RequestHandler):
     def post(self):
-        for ghost in GhostDatabase().list_all():
-            if ghost.ghost_name == self.request.get('ghost_name'):
-                ghost.first_name = self.request.get('first_name')
-                ghost.second_name = self.request.get('second_name')
-                ghost.gmail = users.get_current_user()
-                ghost.put()
+        gdb = GhostDatabase()
+        user = users.get_current_user()
+        previous_ghost = gdb.get_from_user(user)
+
+        if previous_ghost:
+            gdb.clear_user_data(previous_ghost)
+
+        ghost = gdb.get_from_ghostname(self.request.get('ghost_name'))
+        ghost.first_name = self.request.get('first_name')
+        ghost.second_name = self.request.get('second_name')
+        ghost.gmail = user
+        ghost.put()
 
         self.redirect('/?')
 

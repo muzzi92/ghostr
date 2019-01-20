@@ -93,3 +93,13 @@ class GhostDatabase:
                 return matches[0]
             except IndexError:
                 print("No Ghost Identity found for User {}".format(user))
+
+    def get_from_ghostname(self, name):
+        matches = db.GqlQuery("SELECT * FROM Ghost WHERE ghost_name = :value", value=name)
+        return matches[0]
+
+    def clear_user_data(self, ghost):
+        ghost.first_name = None
+        ghost.second_name = None
+        ghost.gmail = None
+        ghost.put()
