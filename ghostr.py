@@ -3,7 +3,6 @@ from google.appengine.ext.webapp import template
 from models import Ghost, GhostDatabase
 from google.appengine.api import users
 import webapp2
-from google.appengine.ext import db
 
 GhostDatabase().setup()
 
