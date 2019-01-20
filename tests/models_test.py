@@ -7,8 +7,10 @@ from google.appengine.ext import testbed
 
 from src.models import Ghost
 
-import os,sys
+import os
+import sys
 sys.path.append(os.getcwd())
+
 
 class GhostTestCase(unittest.TestCase):
 
@@ -32,7 +34,11 @@ class GhostTestCase(unittest.TestCase):
         second_name = "Roshi"
         ghost_name = "Babadook"
 
-        ghost = Ghost(gmail=user, first_name=first_name, second_name=second_name, ghost_name=ghost_name)
+        ghost = Ghost(
+            gmail=user,
+            first_name=first_name,
+            second_name=second_name,
+            ghost_name=ghost_name)
         ghost.put()
 
         stored_ghost = Ghost.query().get()
@@ -41,7 +47,6 @@ class GhostTestCase(unittest.TestCase):
         self.assertEqual(first_name, stored_ghost.first_name)
         self.assertEqual(second_name, stored_ghost.second_name)
         self.assertEqual(ghost_name, stored_ghost.ghost_name)
-
 
 
 if __name__ == '__main__':

@@ -9,6 +9,7 @@
 * Install [Python App Engine Standard Environment](https://cloud.google.com/appengine/docs/standard/python/quickstart)
 * Follow instructions to install and configure the SDK
 * Run `dev_appserver.py app.yaml` to deploy the application locally
+* Run `python runner.py <path-to-your-local-google-cloud-sdk-folder>`
 
 ## App brief
 Build an application hosted on the free version of App Engine. This application should provide a random ghost name when a user provides their own first and last name. All ghost names must be unique. The same ghost name should be consistently displayed to a returning user.
@@ -73,8 +74,7 @@ https://docs.google.com/spreadsheets/d/1R-xulhVpfaXOfvx05mLK7G5WvpIRk6eJLi99UlvC
 ## Improvements
 * Fix bug in `SpreadsheetProcessor`. You can see full details of the issue [here](https://stackoverflow.com/questions/54276516/google-api-python-client-from-six-moves-import-zip-importerror-no-module-name)
 * More testing. It would be great to fully test this app with complete unit, interface and integration tests. I chose to put testing on the backburner due to time constraints.
-* Using Key objects to access Datastore entities would have been a cleaner approach than wrapping GQL queries but took more time to get familiar with.
 * Replace `GhostrEngine.setup()` function with a better approach for populating the Database prior to app launch. E.g. Running it from separate script before hand.
 * Better naming. I feel like I rushed through some of the class and method naming, and hence they are not as descriptive as I would have liked.
-* Further encapsulation. More logic can be extracted from the controller into modules.
+* Further encapsulation of logic out of the controller.
 * Front end. It would have been cool to spend more time styling the app and implementing some JavaScript.

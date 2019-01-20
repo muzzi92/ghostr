@@ -7,8 +7,10 @@ from google.appengine.ext import ndb
 from google.appengine.ext import testbed
 from random import shuffle
 
-import os,sys
+import os
+import sys
 sys.path.append(os.getcwd())
+
 
 class GhostrEngineTestCase(unittest.TestCase):
 
@@ -37,7 +39,8 @@ class GhostrEngineTestCase(unittest.TestCase):
 
         ghost = Ghost(gmail=user_one).put()
 
-        assert GhostrEngine.set_form_text(user_one) == "Change your current Phantom name"
+        assert GhostrEngine.set_form_text(
+            user_one) == "Change your current Phantom name"
         assert GhostrEngine.set_form_text(user_two) == "Get a Phantom name"
 
     def testListRandomThree(self):
@@ -73,7 +76,7 @@ class GhostrEngineTestCase(unittest.TestCase):
         ghost.put()
 
         assert GhostrEngine.get_from_user(user) == ghost
-        assert GhostrEngine.get_from_user(None) == None
+        assert GhostrEngine.get_from_user(None) is None
 
     def testGetFromGhostname(self):
         ghost = Ghost(ghost_name="Tom")
@@ -87,7 +90,11 @@ class GhostrEngineTestCase(unittest.TestCase):
         second_name = "Roshi"
         ghost_name = "Babadook"
 
-        ghost = Ghost(gmail=user, first_name=first_name, second_name=second_name, ghost_name=ghost_name)
+        ghost = Ghost(
+            gmail=user,
+            first_name=first_name,
+            second_name=second_name,
+            ghost_name=ghost_name)
         ghost.put()
 
         stored_ghost = Ghost.query().get()
@@ -101,6 +108,6 @@ class GhostrEngineTestCase(unittest.TestCase):
 
         updated_stored_ghost = Ghost.query().get()
 
-        assert updated_stored_ghost.gmail == None
-        assert updated_stored_ghost.first_name == None
-        assert updated_stored_ghost.second_name == None
+        assert updated_stored_ghost.gmail is None
+        assert updated_stored_ghost.first_name is None
+        assert updated_stored_ghost.second_name is None
