@@ -1,4 +1,33 @@
 body {
-    font-family: Verdana, Helvetica, sans-serif;
-    background-color: #DDDDDD;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    background-image: url("https://pmcvariety.files.wordpress.com/2013/11/ghost-tv-show.jpg?w=1000&h=563&crop=1");
+    height: 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    text-align: center;
+    margin-left: 1500;
+    margin-right: 100;
+    margin-top: 150;
+    color: antiquewhite;
+}
+
+.bulleted {
+    text-align: left;
+    margin-left: 270;
+    font-size: large;
+}
+
+a:link, a:visited {
+    background-color: #fcfcfc;
+    color: rgb(119, 177, 141);
+    padding: 14px 25px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+}
+
+  a:hover, a:active {
+    background-color: rgb(163, 219, 184);
+    color: white;
 }

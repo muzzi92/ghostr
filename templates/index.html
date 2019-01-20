@@ -2,21 +2,26 @@
     <link type="text/css" rel="stylesheet" href="/stylesheets/main.css" />
 </head>
 
-<h1> Ghostr - The Ghost Name Generator </h1>
+<div>
+    <h1> Ghostr. </h1>
+    <h2>The Ghost Name Generator</h2>
+    {% if user %}
+        <h2> Welcome {{user}}</h2>
+    {% endif %}
+</div>
+<div class="bulleted">
+    <ul>
+    {% for ghost in ghosts %}
+        <li>
+            {{ ghost.ghost_name }}
+            {% if ghost.gmail %}
+            - {{ ghost.first_name }} {{ghost.second_name}}, {{ ghost.gmail.email }}
+            {% endif %}
+        </li>
+    {% endfor %}
+    </ul>
+</div>
 
-{% if user %}
-    <h2> Welcome {{user}}</h2>
-{% endif %}
-
-<ul>
-{% for ghost in ghosts %}
-    <li>
-        {{ ghost.ghost_name }}
-        {% if ghost.gmail %}
-         - {{ ghost.first_name }} {{ghost.second_name}}, {{ ghost.gmail.email }}
-        {% endif %}
-    </li>
-{% endfor %}
-</ul>
-
-<a href="entry">{{ form_linktext }}</a>
+<div>
+    <a href="entry">{{ form_linktext }}</a>
+</div>
