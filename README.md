@@ -1,4 +1,4 @@
-# Name Generator
+# Ghostr - The Name Generator
 
 [Link to application](https://ghostr.appspot.com/)
 
@@ -79,3 +79,4 @@ https://docs.google.com/spreadsheets/d/1R-xulhVpfaXOfvx05mLK7G5WvpIRk6eJLi99UlvC
 * Further encapsulation of logic out of the controller.
 * Front end. It would have been cool to spend more time styling the app and implementing some JavaScript.
 * Use a secure scaffold to start the project directory off. I chose not to due to the limited amount of time.
+* Defend and test some edge cases
