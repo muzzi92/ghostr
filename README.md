@@ -78,3 +78,4 @@ https://docs.google.com/spreadsheets/d/1R-xulhVpfaXOfvx05mLK7G5WvpIRk6eJLi99UlvC
 * Better naming. I feel like I rushed through some of the class and method naming, and hence they are not as descriptive as I would have liked.
 * Further encapsulation of logic out of the controller.
 * Front end. It would have been cool to spend more time styling the app and implementing some JavaScript.
+* Use a secure scaffold to start the project directory off. I chose not to due to the limited amount of time.
