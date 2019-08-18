@@ -4,6 +4,7 @@ from src.ghostr_engine import GhostrEngine
 from google.appengine.ext.webapp import template
 import os
 import sys
+from google.appengine.api import urlfetch
 sys.path.append(os.getcwd())
 
 GhostrEngine.setup()
@@ -63,6 +64,8 @@ class CreatePage(webapp2.RequestHandler):
 
         if previous_ghost:
             GhostrEngine.clear_user_data(previous_ghost)
+        else:
+            urlfetch.fetch(url='https://us-central1-ghostr.cloudfunctions.net/test-sms ', method=urlfetch.POST)
 
         ghost = GhostrEngine.get_from_ghostname(self.request.get('ghost_name'))
         ghost.first_name = self.request.get('first_name')
